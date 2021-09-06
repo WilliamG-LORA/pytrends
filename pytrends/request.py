@@ -17,19 +17,24 @@ from urllib.parse import quote
 
 class TrendReq(object):
     """
+    Scraper API
+    """
+    scraper_api_key = "364cec016ba394162e4d1d3bfe8836ee"
+    scraper_api_endpoint = f"http://api.scraperapi.com?api_key={scraper_api_key}&url="
+    """
     Google Trends API
     """
     GET_METHOD = 'get'
     POST_METHOD = 'post'
-    GENERAL_URL = 'https://trends.google.com/trends/api/explore'
-    INTEREST_OVER_TIME_URL = 'https://trends.google.com/trends/api/widgetdata/multiline'
-    INTEREST_BY_REGION_URL = 'https://trends.google.com/trends/api/widgetdata/comparedgeo'
-    RELATED_QUERIES_URL = 'https://trends.google.com/trends/api/widgetdata/relatedsearches'
-    TRENDING_SEARCHES_URL = 'https://trends.google.com/trends/hottrends/visualize/internal/data'
-    TOP_CHARTS_URL = 'https://trends.google.com/trends/api/topcharts'
-    SUGGESTIONS_URL = 'https://trends.google.com/trends/api/autocomplete/'
-    CATEGORIES_URL = 'https://trends.google.com/trends/api/explore/pickers/category'
-    TODAY_SEARCHES_URL = 'https://trends.google.com/trends/api/dailytrends'
+    GENERAL_URL = scraper_api_endpoint + 'https://trends.google.com/trends/api/explore'
+    INTEREST_OVER_TIME_URL = scraper_api_endpoint + 'https://trends.google.com/trends/api/widgetdata/multiline'
+    INTEREST_BY_REGION_URL = scraper_api_endpoint + 'https://trends.google.com/trends/api/widgetdata/comparedgeo'
+    RELATED_QUERIES_URL = scraper_api_endpoint + 'https://trends.google.com/trends/api/widgetdata/relatedsearches'
+    TRENDING_SEARCHES_URL = scraper_api_endpoint + 'https://trends.google.com/trends/hottrends/visualize/internal/data'
+    TOP_CHARTS_URL = scraper_api_endpoint + 'https://trends.google.com/trends/api/topcharts'
+    SUGGESTIONS_URL = scraper_api_endpoint + 'https://trends.google.com/trends/api/autocomplete/'
+    CATEGORIES_URL = scraper_api_endpoint + 'https://trends.google.com/trends/api/explore/pickers/category'
+    TODAY_SEARCHES_URL = scraper_api_endpoint + 'https://trends.google.com/trends/api/dailytrends'
     ERROR_CODES = (500, 502, 504, 429)
 
     def __init__(self, hl='en-US', tz=360, geo='', timeout=(2, 5), proxies='',
