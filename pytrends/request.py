@@ -14,27 +14,29 @@ from pytrends import exceptions
 
 from urllib.parse import quote
 
+if __name__ == "__main__":
+    print(requests.get("https://trends.google.com/trends/api/explore"))
 
 class TrendReq(object):
     """
     Scraper API
     """
     scraper_api_key = "364cec016ba394162e4d1d3bfe8836ee"
-    scraper_api_endpoint = f"http://api.scraperapi.com?api_key={scraper_api_key}&url="
+    self.scraper_api_endpoint = f"http://api.scraperapi.com?api_key={scraper_api_key}&keep_headers=true&url="
     """
     Google Trends API
     """
     GET_METHOD = 'get'
     POST_METHOD = 'post'
-    GENERAL_URL = scraper_api_endpoint + 'https://trends.google.com/trends/api/explore'
-    INTEREST_OVER_TIME_URL = scraper_api_endpoint + 'https://trends.google.com/trends/api/widgetdata/multiline'
-    INTEREST_BY_REGION_URL = scraper_api_endpoint + 'https://trends.google.com/trends/api/widgetdata/comparedgeo'
-    RELATED_QUERIES_URL = scraper_api_endpoint + 'https://trends.google.com/trends/api/widgetdata/relatedsearches'
-    TRENDING_SEARCHES_URL = scraper_api_endpoint + 'https://trends.google.com/trends/hottrends/visualize/internal/data'
-    TOP_CHARTS_URL = scraper_api_endpoint + 'https://trends.google.com/trends/api/topcharts'
-    SUGGESTIONS_URL = scraper_api_endpoint + 'https://trends.google.com/trends/api/autocomplete/'
-    CATEGORIES_URL = scraper_api_endpoint + 'https://trends.google.com/trends/api/explore/pickers/category'
-    TODAY_SEARCHES_URL = scraper_api_endpoint + 'https://trends.google.com/trends/api/dailytrends'
+    GENERAL_URL = self.scraper_api_endpoint + 'https://trends.google.com/trends/api/explore'
+    INTEREST_OVER_TIME_URL = self.scraper_api_endpoint + 'https://trends.google.com/trends/api/widgetdata/multiline'
+    INTEREST_BY_REGION_URL = self.scraper_api_endpoint + 'https://trends.google.com/trends/api/widgetdata/comparedgeo'
+    RELATED_QUERIES_URL = self.scraper_api_endpoint + 'https://trends.google.com/trends/api/widgetdata/relatedsearches'
+    TRENDING_SEARCHES_URL = self.scraper_api_endpoint + 'https://trends.google.com/trends/hottrends/visualize/internal/data'
+    TOP_CHARTS_URL = self.scraper_api_endpoint + 'https://trends.google.com/trends/api/topcharts'
+    SUGGESTIONS_URL = self.scraper_api_endpoint + 'https://trends.google.com/trends/api/autocomplete/'
+    CATEGORIES_URL = self.scraper_api_endpoint + 'https://trends.google.com/trends/api/explore/pickers/category'
+    TODAY_SEARCHES_URL = self.scraper_api_endpoint + 'https://trends.google.com/trends/api/dailytrends'
     ERROR_CODES = (500, 502, 504, 429)
 
     def __init__(self, hl='en-US', tz=360, geo='', timeout=(2, 5), proxies='',
@@ -73,6 +75,7 @@ class TrendReq(object):
             if "proxies" in self.requests_args:
                 try:
                     return dict(filter(lambda i: i[0] == 'NID', requests.get(
+                        f"http://api.scraperapi.com?api_key={self.scraper_api_key}&keep_headers=true&url=" +
                         'https://trends.google.com/?geo={geo}'.format(
                             geo=self.hl[-2:]),
                         timeout=self.timeout,
@@ -87,6 +90,7 @@ class TrendReq(object):
                     proxy = ''
                 try:
                     return dict(filter(lambda i: i[0] == 'NID', requests.get(
+                        f"http://api.scraperapi.com?api_key={self.scraper_api_key}&keep_headers=true&url=" +
                         'https://trends.google.com/?geo={geo}'.format(
                             geo=self.hl[-2:]),
                         timeout=self.timeout,
@@ -120,6 +124,7 @@ class TrendReq(object):
         :param kwargs: any extra key arguments passed to the request builder (usually query parameters or data)
         :return:
         """
+        print("about to start a sessions")
         s = requests.session()
         # Retries mechanism. Activated when one of statements >0 (best used for proxy)
         if self.retries > 0 or self.backoff_factor > 0:
@@ -384,7 +389,7 @@ class TrendReq(object):
             related_payload['req'] = json.dumps(request_json['request'])
             related_payload['token'] = request_json['token']
             related_payload['tz'] = self.tz
-
+            
             # parse the returned json
             req_json = self._get_data(
                 url=TrendReq.RELATED_QUERIES_URL,

@@ -1,4 +1,5 @@
 from unittest import TestCase
+import unittest
 import pandas.api.types as ptypes
 
 from pytrends.request import TrendReq
